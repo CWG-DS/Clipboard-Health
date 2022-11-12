@@ -22,9 +22,11 @@ Drivers are free to accept or not an assignment based on how much they will get 
 |  3 | 45.730717  |        1 | 
 |  4 | 14.642845  |        0 | 
 
+"PAY" describes the amount offered to the drivers and "Accepted" codifies wether the offer was accepted [1], or declined [0].
 
+Given the data structure we diveded our sample into two subsamples based on if the offers were accepted or declined and plotted them through the use of a boxplot.
 
-
+<img src="Images\Raw_Data_Distribution.png" alt="drawing" width="150"/> 
 
 It is commonly percieved that as a TV Series goes through its Seasons, its 
 quality tends to decline. The goal of this project is to test this hypothesis
