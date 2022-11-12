@@ -1,4 +1,4 @@
-# Rating Decline Analysis
+# Profit Optimzation
 
 <img src="Images\imdb.png" alt="drawing" width="150"/> 
 
@@ -15,7 +15,7 @@ A ride-hailing service is created and will work for a total duration of 12 month
 Drivers are free to accept or not an assignment based on how much they will get payed for it. We are given a sample of 1000 data points which describes their decision criteria (Accepted/Declined) based on the amount of compensation offered. This data can be reviewed in the "driverAcceptanceData.csv" available in this repository. An example of the data is shown below:
 
 |    | PAY   |   Accepted |
-|---:|:--------------|---------:|
+|---:|:------:|:---------:|
 |  0 | 29.358732  |        0 | 
 |  1 | 22.986847  |        0 | 
 |  2 | 18.020348  |        0 | 
@@ -27,6 +27,15 @@ Drivers are free to accept or not an assignment based on how much they will get 
 Given the data structure we diveded our sample into two subsamples based on if the offers were accepted or declined and plotted them through the use of a boxplot.
 
 <img src="Images\Raw_Data_Distribution.png" alt="drawing"/> 
+
+As it would be expected the distribution pertaining to [Declined] rides are characterized by a lower [PAY] than those of [Accepted] rides as shown in the figure above as well as by their average values (18.62$, and 32.08$ respectively). Given that there are outliers within our sample we decided to remove them through the use of the Interquartile Method, removing data points which exceeded 1.5 times the interquartile range. After which we tested for normality through the use the Shapiro-Wilk Test determining that both destributions are in fact Gaussian/Normal distributions. 
+
+We then proceeded to collapse both distributions into a single plot describing the probability of rejection for every payment point. Given our small sample size we decided to group data points in 1$ intervals. The results are shown bellow:
+
+<img src="Images\Collaps_Probability.png" alt="drawing"/>
+
+
+
 
 It is commonly percieved that as a TV Series goes through its Seasons, its 
 quality tends to decline. The goal of this project is to test this hypothesis
