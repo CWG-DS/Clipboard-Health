@@ -46,6 +46,104 @@ Note: Values bellow 0 are discarded. Total number of values discarded per contio
 
 <img src="Images\LikelihoodRejection_NewData.png" alt="drawing"/>
 
+As seen above, our resulting [% of Decline Rides] describes an inverse sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail end caused by extreme values. However, since the 30$ marks our break even point it will be irrelevant for our specific case and therefore will have no effect on our analysis.
+
+Now that we have our data cleaned and sorted we will proceed with the pricing strategy portion of our work.
+
+**Fixed Pricing Strategy**
+
+We will first maximize profits for a fixed payment method. This is, Drivers will be payed a fixed amount for every ride they partake in throughout the 12 months duration of the program. To do so we will employ a costum function which will itterate 12 times, once per month, through every possible value [0.01$ - 30.01$] and output the total profit obtained per value input. To make this process as clear as possible we will go through each component of the function and link it to the restrictions given by the requirements stated in "Clipboard Health Pricing Case Study.pdf".
+
+Our main function code is as follows:
+
+    def profit(x):
+
+    import numpy as np
+    from scipy.stats import poisson
+    import itertools
+
+    # Initial Parameters
+    lamb = [1]                                                                           # Initial lambda value for our poisson distributions
+    Ri_Retention = [1000]                                                                # Initial number of riders for first month
+    Max_Riders = 10000                                                                   # Max. number of possible customers
+
+    Exhausted_Riders = 0                                                                 # Exhausted Rider counter set at 0
+    Profit = []                                                                          # Profit per itteration (month)
+
+    # Poisson Distribution of every previous Lambda
+    for month in range(0, 12):
+
+    # Halting if Riders are exhausted
+        if Max_Riders <= Exhausted_Riders:
+            break
+
+        Total_LambDist = []                                                                  # List of lists containing all the distributions of each given lambda
+        for ele in range(0, len(lamb)):
+            Total_LambDist.append(poisson.rvs(mu=lamb[ele], size=int(round(Ri_Retention[ele],0))))
+
+        Total_LambDist = [item for sublist in Total_LambDist for item in sublist]            # Our complete new distribution
+        Unique_Values = list(set(Total_LambDist))                                            # Unique Number of Requests (0 Requests, 1 Request, 2 Requests...) 
+
+    # Number of Riders per Number of Requests
+        NRi_NRe = []                                                                         # Initializing list which will contain the amount of riders per number of requests
+        for i in range(0, len(Unique_Values)):                                               # Declaring for loop to iterate over every element of our Unique Values
+            NRi_NRe.append(np.count_nonzero(Total_LambDist == Unique_Values[i]))             # Appending total amount of every unique number of requests
+
+    # We calculate the number of riders per lambda
+            Lambda_Values = Unique_Values[1:]
+            NRi_NRe_Values = NRi_NRe[1:] 
+
+            Probability = []
+
+            for i in range(0, len(NRi_NRe_Values)):
+                Inner_List = []
+                Exp = Lambda_Values[i]
+                for e in range(1, 1+Exp):
+                    Inner_List.append(NRi_NRe_Values[i]*Acceptance_Rate(x)**e)
+                for u in range(0, len(Inner_List)-1):
+                    Inner_List[u] = Inner_List[u] - Inner_List[u+1]
+                Probability.append(Inner_List)
+
+        Rider_Lamb = [round(sum(i),0) for i in itertools.zip_longest(*Probability, fillvalue=0)]
+
+        Rider_Lamb = [i for i in Rider_Lamb if i != 0]
+    # We calculate profits
+        # Earings
+        Earn = []
+        for i in Rider_Lamb:
+            Earn.append(i * (Rider_Lamb.index(i) + 1) * 30)
+        Earn = sum(Earn)
+
+        #Spending
+        Spen = []
+        for i in Rider_Lamb:
+            Spen.append(i * (Rider_Lamb.index(i) + 1) * x)
+        Spen = sum(Spen)
+
+        #Profit
+        Profit.append(Earn - Spen)
+
+    # We calculate our new parametters (Rider_Retention, New Lambdas and Exhausted Riders)
+        Attrition = sum(Ri_Retention) - sum(Rider_Lamb)
+    
+        Ri_Retention = Rider_Lamb
+        if  len(Ri_Retention) == 0:
+            Ri_Retention = [0] 
+        Ri_Retention[0] = Ri_Retention[0] + 1000
+
+        lamb = list(range(1, len(Rider_Lamb)+1))
+
+        Exhausted_Riders = Exhausted_Riders + Attrition                 # New Exhausted Riders
+    return sum(Profit)
+
+
+We begin by defining our Acceptance Rate function. The main goal of this function is to output the percentage rate of accepted rides given a Driver Pay input. The code is as follows:
+
+    def Acceptance_Rate(x):
+    Percent = 1 - Percent_df.loc[x]['% Declined']/100
+    return Percent
+
+This function is crutial, as lower Payment Rates will result in a lower number of rides accepted and therefore will increase the Attrition Rate of our users.
 
 
 
