@@ -2,7 +2,7 @@
 
 <img src="Images\imdb.png" alt="drawing" width="150"/> 
 
-**Profit Optimization**
+**Preliminary Analysis**
 
 
 
@@ -34,6 +34,13 @@ We then proceeded to collapse both distributions into a single plot describing t
 
 <img src="Images\Collaps_Probability.png" alt="drawing"/>
 
+As expected there is a reduction in the probability of declined rides as we increase the pay offered to drivers. However, even with a low sensitivity (1$ intervals) we dont have enough data to plot a smooth transition between intervals. As we can see, there is noticeable sudden "jumps" within the (31, 32] and (37,38] intervals as well as no values within the (2,3] interval. In order to solve these problems we increased our sample size by generating normal distributions with the same characteristics as our initial ones. This process is described in the next section.
+
+**Data Generation**
+
+Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points which will enable us to generate a more accurate estimate of which rides were accepted/declined for every driver offer range.
+
+<img src="Images\Data_Generation.png" alt="drawing"/>
 
 
 
