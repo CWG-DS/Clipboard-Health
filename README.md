@@ -123,7 +123,7 @@ New Lambda Values: A list which contains the values of our new lambda values whi
 
 After these elements are established the program itterates the process another 11 times before outputing a final profit value which is equal to the sum of the profits generated throughout the 12 months.
 
-The code it self is shown here:
+The code itself is shown here:
 
         def profit(x):
 
@@ -131,74 +131,79 @@ The code it self is shown here:
             from scipy.stats import poisson
             import itertools
 
-        lamb = [1]                                                                           
-        Ri_Retention = [1000]                                                               
-        Max_Riders = 10000                                                                   
+            lamb = [1]                                                                           
+            Ri_Retention = [1000]                                                               
+            Max_Riders = 10000                                                                   
 
-        Exhausted_Riders = 0                                                                 
-        Profit = []                                                                          
+            Exhausted_Riders = 0                                                                 
+            Profit = []                                                                          
 
 
-        for month in range(0, 12):
-            if Max_Riders <= Exhausted_Riders:
-            break
+            for month in range(0, 12):
+                if Max_Riders <= Exhausted_Riders:
+                break
 
-            Total_LambDist = []                                                                  
-            for ele in range(0, len(lamb)):
-                Total_LambDist.append(poisson.rvs(mu=lamb[ele], size=int(round(Ri_Retention[ele],0))))
+                Total_LambDist = []                                                                  
+                for ele in range(0, len(lamb)):
+                    Total_LambDist.append(poisson.rvs(mu=lamb[ele], size=int(round(Ri_Retention[ele],0))))
 
-            Total_LambDist = [item for sublist in Total_LambDist for item in sublist]            
-            Unique_Values = list(set(Total_LambDist))                                           
-
-    
-            NRi_NRe = []                                                                         
-            for i in range(0, len(Unique_Values)):                                               
-                NRi_NRe.append(np.count_nonzero(Total_LambDist == Unique_Values[i]))            
+                Total_LambDist = [item for sublist in Total_LambDist for item in sublist]            
+                Unique_Values = list(set(Total_LambDist))                                           
 
     
-                Lambda_Values = Unique_Values[1:]
-                NRi_NRe_Values = NRi_NRe[1:] 
+                NRi_NRe = []                                                                         
+                for i in range(0, len(Unique_Values)):                                               
+                    NRi_NRe.append(np.count_nonzero(Total_LambDist == Unique_Values[i]))            
 
-                Probability = []
-
-                for i in range(0, len(NRi_NRe_Values)):
-                    Inner_List = []
-                    Exp = Lambda_Values[i]
-                    for e in range(1, 1+Exp):
-                        Inner_List.append(NRi_NRe_Values[i]*Acceptance_Rate(x)**e)
-                    for u in range(0, len(Inner_List)-1):
-                        Inner_List[u] = Inner_List[u] - Inner_List[u+1]
-                    Probability.append(Inner_List)
-
-            Rider_Lamb = [round(sum(i),0) for i in itertools.zip_longest(*Probability, fillvalue=0)]
-
-            Rider_Lamb = [i for i in Rider_Lamb if i != 0]
-
-            Earn = []
-            for i in Rider_Lamb:
-                Earn.append(i * (Rider_Lamb.index(i) + 1) * 30)
-            Earn = sum(Earn)
-
-            Spen = []
-            for i in Rider_Lamb:
-                Spen.append(i * (Rider_Lamb.index(i) + 1) * x)
-            Spen = sum(Spen)
-
-            Profit.append(Earn - Spen)
-
-            Attrition = sum(Ri_Retention) - sum(Rider_Lamb)
     
-            Ri_Retention = Rider_Lamb
-            if  len(Ri_Retention) == 0:
-                Ri_Retention = [0] 
-            Ri_Retention[0] = Ri_Retention[0] + 1000
+                    Lambda_Values = Unique_Values[1:]
+                    NRi_NRe_Values = NRi_NRe[1:] 
 
-            lamb = list(range(1, len(Rider_Lamb)+1))
+                    Probability = []
 
-            Exhausted_Riders = Exhausted_Riders + Attrition                 
-        return sum(Profit)
+                    for i in range(0, len(NRi_NRe_Values)):
+                        Inner_List = []
+                        Exp = Lambda_Values[i]
+                        for e in range(1, 1+Exp):
+                            Inner_List.append(NRi_NRe_Values[i]*Acceptance_Rate(x)**e)
+                        for u in range(0, len(Inner_List)-1):
+                            Inner_List[u] = Inner_List[u] - Inner_List[u+1]
+                        Probability.append(Inner_List)
+
+                Rider_Lamb = [round(sum(i),0) for i in itertools.zip_longest(*Probability, fillvalue=0)]
+
+                Rider_Lamb = [i for i in Rider_Lamb if i != 0]
+
+                Earn = []
+                for i in Rider_Lamb:
+                    Earn.append(i * (Rider_Lamb.index(i) + 1) * 30)
+                Earn = sum(Earn)
+
+                Spen = []
+                for i in Rider_Lamb:
+                    Spen.append(i * (Rider_Lamb.index(i) + 1) * x)
+                Spen = sum(Spen)
+
+                Profit.append(Earn - Spen)
+
+                Attrition = sum(Ri_Retention) - sum(Rider_Lamb)
+    
+                Ri_Retention = Rider_Lamb
+                if  len(Ri_Retention) == 0:
+                    Ri_Retention = [0] 
+                Ri_Retention[0] = Ri_Retention[0] + 1000
+
+                lamb = list(range(1, len(Rider_Lamb)+1))
+
+                Exhausted_Riders = Exhausted_Riders + Attrition                 
+            return sum(Profit)
+
+We then itterated the previously described function for every Driver Pay value of interest [0.01, 30.01] and plotted the Profit outputs per Driver Pay with the following results:
+
+<img src="Images\Profit_DriverPay.png" alt="drawing"/>
 
 
+We then itterated this function over all values of interest, this is, all values between 0.01 and 30.01 and plotted these profit values in order to get a sense of Profit progression per Driver Pay.
 
 It is commonly percieved that as a TV Series goes through its Seasons, its 
 quality tends to decline. The goal of this project is to test this hypothesis
