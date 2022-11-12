@@ -38,7 +38,7 @@ As expected there is a reduction in the probability of declined rides as we incr
 
 **Data Generation**
 
-Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points which will enable us to generate a more accurate estimate of which rides were accepted/declined for every driver offer range.
+Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points per condition. This will enable us to generate a more accurate estimate of which rides were accepted/declined for every driver pay range. Our new data distributions are as follows:
 
 <img src="Images\Data_Generation.png" alt="drawing"/>
 
