@@ -26,7 +26,7 @@ Drivers are free to accept or not an assignment based on how much they will get 
 
 Given the data structure we diveded our sample into two subsamples based on if the offers were accepted or declined and plotted them through the use of a boxplot.
 
-<img src="Images\Raw_Data_Distribution.png" alt="drawing" width="150"/> 
+<img src="Images\Raw_Data_Distribution.png" alt="drawing"/> 
 
 It is commonly percieved that as a TV Series goes through its Seasons, its 
 quality tends to decline. The goal of this project is to test this hypothesis
