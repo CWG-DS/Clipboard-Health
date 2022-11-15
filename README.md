@@ -207,7 +207,7 @@ The figure above seems to represent a log normal distribution. However, this is 
 <img src="Images\Initial_Estimate.png" alt="drawing"/>
 
 
-<img src="Images\Final_Fix.png" alt="drawing"/
+<img src="Images\Final_Fix.png" alt="drawing"/>
 
 
 
