@@ -202,6 +202,15 @@ We then itterated the previously described function for every Driver Pay value o
 
 <img src="Images\Profit_DriverPay.png" alt="drawing"/>
 
+The figure above seems to represent a log normal distribution. However, this is taken from just one sample per Driver Pay. We could further itterate throughout the whole range of intervals but since we are only interested in maximizing our profits we can set a cut of point at 25.000$. We then obtain the min and max intervals that satisfy this condition and itterate over this smaller sample, saving computing time. By doing so we narrow down our optimal pricing strategy to the Driver Pay interval [22.68, 27.83] with an average profit margin of 28375.12$. However, as seen by the figure bellow, we can narrow our interval even further and itterate our costum function 100 times in order to achieve greater accuracy in our predictions.
+
+<img src="Images\Initial_Estimate.png" alt="drawing"/>
+
+
+<img src="Images\Final_Fix.png" alt="drawing"/
+
+
+
 
 We then itterated this function over all values of interest, this is, all values between 0.01 and 30.01 and plotted these profit values in order to get a sense of Profit progression per Driver Pay.
 
