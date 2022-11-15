@@ -1,6 +1,6 @@
 # Profit Optimzation
 
-<img src="Images\imdb.png" alt="drawing" width="150"/> 
+<img src="Images\ClipHealth_Img.png" alt="drawing" width="150"/> 
 
 **Preliminary Analysis**
 
