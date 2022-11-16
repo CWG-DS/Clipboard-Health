@@ -4,10 +4,6 @@
 
 **Preliminary Analysis**
 
-
-
-Brief Description of the Project:
-
 The main goal of this project is the optimization of a pricing strategy in which potential profits are maximized given the restrictions imposed by the document "Clipboard Health Pricing Case Study" available in this repository.
 
 A ride-hailing service is created and will work for a total duration of 12 months. Potential riders are paired with drivers and charged 30$ per ride. Our main variable of interest is the amount payed to drivers. As such, we will aim to maximize profits by increasing the total amount of rides while reducing as much as possible the amount payed to drivers. 
@@ -46,16 +42,17 @@ Note: Values bellow 0 are discarded. Total number of values discarded per contio
 
 <img src="Images\LikelihoodRejection_NewData.png" alt="drawing"/>
 
-As seen above, our resulting [% of Decline Rides] describes an inverse sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail end caused by extreme values. However, since the 30$ marks our break even point it will be irrelevant for our specific case and therefore will have no effect on our analysis.
+As seen above, our resulting [% of Decline Rides] describes an inverse sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail end caused by extreme values. However, since 30$ marks our break even point it will be irrelevant for our specific case and therefore will have no effect on our analysis.
 
 Now that we have our data cleaned and sorted we will proceed with the pricing strategy portion of our work.
 
 **Fixed Pricing Strategy**
 
-We will first maximize profits for a fixed payment method. This is, Drivers will be payed a fixed amount for every ride they partake in throughout the 12 months duration of the program. To do so we will employ a costum function which will itterate 12 times, once per month, through every possible value [0.01$ - 30.01$] and output the total profit obtained per value input. To make this process as clear as possible we will go through each component of the function we will go through the logic of the function first and then showcase the code it self.
+We will first maximize profits for a fixed payment method. This is, Drivers will be payed a fixed amount for every ride they partake in throughout the 12 months duration of the program. To do so we will employ a costum function which will itterate 12 times, once per month, through every possible value [0.01$ - 30.01$] and output the total profit obtained per value input. To make this process as clear as possible we will go through the logic of the function first and then showcase the code it self.
 
 1. Function Set Up
 We import the necessary libraries and set up our initial parameters which are:
+
 - Lambda Value: 1
 - Number of Riders: 1.000
 - Maximun Possible Riders: 10.000
@@ -63,12 +60,15 @@ We import the necessary libraries and set up our initial parameters which are:
 - Empty Profit List: []
 
 2. Main For Loop
+
 Since our program will last for a total of 12 months we will itterate the process of calculating our profits 12 times, once per month. There is a trigger set in place to stop the process if the number of Exhausted Riders goes over our preestablished 10.000 mark, this would mean that we have exhausted all of our possible riders and the program ends. 
 
 2.1 Calculating our Poisson Distribution
+
 The number of rides per rider is described by a Poisson Distribution. For our first run, the number of samples of this distribution will be 1.000 and our lambda will be 1. The resulting distribution is saved within TotalLamb_Dist list. This list is then used in order to extract two essential components:
 - Unique_Values: A list containing the unique number of ride requests within TotalLamb_Dist.
 - NRi_NRe: A list containing the number of riders per unique number of ride requets.
+
 Example:
         Unique_Values = [0, 1, 2, 3, 4, 6]
         NRi_NRe = [300, 200, 100, 50, 10, 1]
@@ -80,8 +80,9 @@ Example:
         10  Riders have Requested 4 Rides
         1   Rider  has  Requested 6 Rides
 
-2.2 Number of Requests Accepted per Number of Requests Made
-We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through a costum function "rider_lambda" which requieres our previous lists as inputs. The function begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
+    2.2 Number of Requests Accepted per Number of Requests Made
+
+    We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through a costum function "rider_lambda" which requieres our previous lists as inputs. The function begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
         Given a 20% Acceptance rate and
         Lambda_Values = [1, 2, 3, 4, 6]
         NRi_NRe_Values = [200, 100, 50, 10, 1]
