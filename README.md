@@ -134,7 +134,7 @@ New Lambda Values: A list which contains the values of our new lambda values whi
 
 After these elements are established the program itterates the process another 11 times before outputing a final profit value which is equal to the sum of the profits generated throughout the 12 months.
 
-The code itself is shown here:
+The code itself is shown bellow:
 
         def profit(x):
 
@@ -224,6 +224,7 @@ Bellow are the final results of our fixed pricing optimization. We can expect to
 **Variable Pricing Strategy**
 
 In order to explore the viability of a variable price strategy we studied the progression of ride requests based on 4 set Driver Pay amounts [25, 30, 35, 40]. These amounts correspond to:
+
         25$: A value within our maximun profit interval using a fixed pricing strategy.
         30$: Our breakeven point.
         35$: A value equidistant over the breakeven point.
