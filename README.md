@@ -85,6 +85,7 @@ Example:
 2.2 Number of Requests Accepted per Number of Requests Made
 
 We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through our first indented for loop which requieres our previous lists as inputs. The for loop begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
+
         Given a 20% Acceptance rate and
         Lambda_Values = [1, 2, 3, 4, 6]
         NRi_NRe_Values = [200, 100, 50, 10, 1]
