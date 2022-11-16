@@ -51,6 +51,7 @@ Now that we have our data cleaned and sorted we will proceed with the pricing st
 We will first maximize profits for a fixed payment method. This is, Drivers will be payed a fixed amount for every ride they partake in throughout the 12 months duration of the program. To do so we will employ a costum function which will itterate 12 times, once per month, through every possible value [0.01$ - 30.01$] and output the total profit obtained per value input. To make this process as clear as possible we will go through the logic of the function first and then showcase the code it self.
 
 1. Function Set Up
+
 We import the necessary libraries and set up our initial parameters which are:
 
 - Lambda Value: 1
@@ -70,6 +71,7 @@ The number of rides per rider is described by a Poisson Distribution. For our fi
 - NRi_NRe: A list containing the number of riders per unique number of ride requets.
 
 Example:
+
         Unique_Values = [0, 1, 2, 3, 4, 6]
         NRi_NRe = [300, 200, 100, 50, 10, 1]
 
@@ -80,9 +82,9 @@ Example:
         10  Riders have Requested 4 Rides
         1   Rider  has  Requested 6 Rides
 
-    2.2 Number of Requests Accepted per Number of Requests Made
+2.2 Number of Requests Accepted per Number of Requests Made
 
-    We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through a costum function "rider_lambda" which requieres our previous lists as inputs. The function begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
+We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through a costum function "rider_lambda" which requieres our previous lists as inputs. The function begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
         Given a 20% Acceptance rate and
         Lambda_Values = [1, 2, 3, 4, 6]
         NRi_NRe_Values = [200, 100, 50, 10, 1]
