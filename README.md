@@ -84,7 +84,7 @@ Example:
 
 2.2 Number of Requests Accepted per Number of Requests Made
 
-We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through a costum function "rider_lambda" which requieres our previous lists as inputs. The function begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
+We then proceed to calculate the number of requests accepted per Unique_Value. This is achieved through our first indented for loop which requieres our previous lists as inputs. The for loop begins by dumping the initial element of each list as it corresponds with the number of users who have not requests any rides. Then it goes through each element within our NRi_NRe list and calculates the number of accepted rides per rider per number of requests given the probability of acceptance based on the Driver Pay amount as follows:
         Given a 20% Acceptance rate and
         Lambda_Values = [1, 2, 3, 4, 6]
         NRi_NRe_Values = [200, 100, 50, 10, 1]
@@ -108,7 +108,9 @@ We then proceed to calculate the number of requests accepted per Unique_Value. T
         (...)
 
 Once the function goes through each element it groups riders by the amount of requests accepted, regardless of the amount of requests made and rounded to the closest whole number. Finally, it drops values which are equal to zero. The final result is a list of accepted riders (Rider_Lamb) whose element position indicates the number of rides accepted, much like our previous Unique_Values and NRi_NRe List.
+
 Example for x = 20:
+
         Rider_Lamb = [113.0, 9.0, 1.0]
 
         113 riders have been Accepted 1 time
@@ -116,12 +118,17 @@ Example for x = 20:
           1 rider  has  been Accpeted 3 times
 
 2.3 Calculating Profit
+
 Now that we have a list which describes the number of accepted rides we can easily calculate our profit as the difference between our earnings, defined as number of total rides accepted x 30, and costs, defined as total of rides accepted x Driver Pay.
 
 2.4 Next Loop Set Up
+
 Our final step is to determine the parameters for our next loop which are:
+
 Exhausted Riders: Number of riders who exit the program because either they did not use the service or were not accepted once. 
+
 New Rider Pool: Established by our Accepted Ride list (Rider_Lamb) previously described and an additional 1000 new users added to the initial element of the list.
+
 New Lambda Values: A list which contains the values of our new lambda values which is determined by the element positions of our Accepted Ride list. 
 
 After these elements are established the program itterates the process another 11 times before outputing a final profit value which is equal to the sum of the profits generated throughout the 12 months.
