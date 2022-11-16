@@ -38,7 +38,7 @@ As expected there is a reduction in the probability of declined rides as we incr
 
 **Data Generation**
 
-Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points per condition. This will enable us to generate a more accurate estimate of which rides were accepted/declined for every driver pay range as well as increasing our sensitivity as we will be able to create smaller intervals (0.01$ instead of the previously used 1$ range). Our new data distributions are as follows:
+Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points per condition. This will enable us to generate a more accurate estimate of which rides were accepted/declined for every Driver Pay range as well as increasing our sensitivity as we will be able to create smaller intervals (0.01$ instead of the previously used 1$ range). Our new data distributions are as follows:
 
 <img src="Images\Data_Generation.png" alt="drawing"/>
 
@@ -235,5 +235,11 @@ We then explored the same parameters but changing Driver Pay to 25$, as it has b
 
 Note: Due Driver Pay 25$ suffering from high user Attrition rate, users are exhausted on month 11, therefore there are no values present in the final month. 
 
-The figure is exactly the same as the one presented previously up until Month 4 where
+The resulting figure is identical to the former in the initial 3 months. However we can clearly see the effects of the pricing change with a rapid decline of rides accepted which converges with the 25$ plot. Our third subplot shows an alarming insight with price reversal not showing a proportional gain in profit to the losses incurred in the initial months. This effect points towards the unfiseability of employing a variable pricing strategy. After further analysis varying the month of implementation of our price change we can conclude that the earlier the change is established the better the outcome. However the pattern shown in the above figure repeats it self. Thus, we conclude that no variable pricing strategy is able to surpass our fixed pricing strategy.
+
+**Conclusion**
+
+After a deep exploration of the data and restrictions given to us by the problem we conclude that the most profitable strategy is a fixed pricing strategy where drivers are payed an amount between 24.15$ and 26.82$ with an expected result of 29758.48$ in profits. Additional analysis using bootstrap methodology will be able to give us a confidence interval to our results. Replication of this project might find deviations in the pricing range in the cent range due to variations in the inverse sigmoid distribution caused by slight differences in the accepted/declined data generation. For future projects a seed will be attached to the generation of data in order for better replication of our findings. 
+
+
 
