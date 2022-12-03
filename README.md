@@ -267,13 +267,20 @@ times over the resulting interval [24.15, 26.82] payment range.
 
 <img src="Images\Profit_DriverPay.png" alt="drawing"/>
 
-
-
-<img src="Images\Initial_Estimate.png" alt="drawing"/>
-
 Bellow are the final results of our fixed pricing optimization. We can expect to achieve on average 29758.48$ by paying drivers a stardard amount anywhere between 24.15$ and 26.82$.
 
 <img src="Images\Final_Fix.png" alt="drawing"/>
+
+As we can appreciate in Figure 6, total profits become quite stable within the stated range. The 
+average expected profits within this range is $29.758,48. When tested for normality through the
+Shapiro-Wilk Test the distribution was determined to be non-normal. Thus, one of two approaches 
+should be taken to determine confidence intervals, resampling the data so as to obtain a normal 
+distribution or via bootstrapping methodology. However, this was not done in this project and will 
+be revisited in the future. 
+It is then concluded that the most optimum driver payment range using a fixed priced strategy is 
+anywhere between $24,15 and $26,82 with an expected total profit of approximately $29.758. 
+Greater profits might be achieved by tightening the driver pay range, however the variability 
+already present within this range makes further reduction questionable.
 
 **Variable Pricing Strategy**
 
