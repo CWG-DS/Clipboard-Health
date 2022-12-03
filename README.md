@@ -53,6 +53,8 @@ to discard possible extreme values through the use of the interquartile method. 
 exceeded 1.5 times the interquartile range was discarded. After which, we tested for normality 
 through the use of the Shapiro-Wilk Test determining that both distributions were in fact 
 Gaussian/Normal distributions.
+
+
 We then proceeded to collapse both distributions into a single plot which describes the probability 
 of rejection for every driver payment point. As we can see in Figure 2 there is a reduction in the 
 probability of declined rides as we increase the pay offered to drivers. However, even with a low 
@@ -64,11 +66,23 @@ characteristics as our initial ones.
 
 <img src="Images\Collaps_Probability.png" alt="drawing"/>
 
-As expected there is a reduction in the probability of declined rides as we increase the pay offered to drivers. However, even with a low sensitivity (1$ intervals) we dont have enough data to plot a smooth transition between intervals. As we can see, there is noticeable sudden "jumps" within the (31, 32] and (37,38] intervals as well as no values within the (2,3] interval. In order to solve these problems we increased our sample size by generating normal distributions with the same characteristics as our initial ones. This process is described in the next section.
-
 **Data Generation**
 
-Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points per condition. This will enable us to generate a more accurate estimate of which rides were accepted/declined for every Driver Pay range as well as increasing our sensitivity as we will be able to create smaller intervals (0.01$ instead of the previously used 1$ range). Our new data distributions are as follows:
+Given that both Decline and Accepted distributions both exhibit a Gaussian/Normal distribution 
+we were able to generate further data points based on the characteristics (mean and standard 
+deviation) of their respective distributions. We will therefore recreate these distributions with a 
+sample size of 100 million data points per condition. This increase in our sample size will enable 
+us to generate a more accurate estimate of which rides were accepted/decline for every driver 
+payment range as well as increase our sensitivity by reducing the width of our intervals to $0,01
+instead of the previous $1 range. It is of note that values bellow 0 were discarded. The total number 
+of values discarded per condition is 0.05% for Declined and < 0.001% for Accepted. No effects 
+are expected from the removal of such a small portion of the sample. Both newly generated 
+distributions are shown in Figure 3.
+We then proceeded to collapse our newly generated distributions into a single plot much like we 
+did before. As seen in Figure 4, our resulting percentage of declined rides describes an inverse 
+sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail 
+end caused by extreme values. However, since $30 marks our break-even point it is irrelevant for 
+our specific case and will have no effect on further analysis
 
 <img src="Images\Data_Generation.png" alt="drawing"/>
 
