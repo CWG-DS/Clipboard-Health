@@ -2,13 +2,33 @@
 
 <img src="Images\ClipHealth_Img.png" alt="drawing" width="150"/> 
 
-**Preliminary Analysis**
+**Introduction**
 
-The main goal of this project is the optimization of a pricing strategy in which potential profits are maximized given the restrictions imposed by the document "Clipboard Health Pricing Case Study" available in this repository.
+The end goal of this project is to determine the most optimum pricing strategy for the case 
+presented to us by Clipboard Health. We begin by dissecting the case study presented to us.
+1. The launch of our ride-hailing service will be active for 12 months.
+2. Riders are charged $30 per ride.
+3. Driver’s pay per ride is our main variable to be determined. Drivers are able to choose 
+which rides to service based on compensation. We are given an extract that describes 
+Driver’s decision making based on payment.
+4. There is a total of 10.000 Riders which are available to us.
+5. We are limited to an increase of 1.000 drivers per month.
+6. The number of rides that are requested by Riders is determined by a Poisson distribution 
+with and initial Lambda of 1.
+7. Riders who do not request rides or do so but are not serviced by Drivers exit the program 
+and do not return.
+8. The number of requests per driver is determined by a Poisson distribution with an initial 
+Lambda of 1. Subsequent requests performed by Riders which stay in the program will also 
+exhibit a Poisson distribution with a Lambda equivalent to the number of serviced rides 
+from the previous month.
+Based on these restrictions we will proceed to model our data and output the most efficient 
+payment method to Drivers so as to maximize profits.
 
-A ride-hailing service is created and will work for a total duration of 12 months. Potential riders are paired with drivers and charged 30$ per ride. Our main variable of interest is the amount payed to drivers. As such, we will aim to maximize profits by increasing the total amount of rides while reducing as much as possible the amount payed to drivers. 
+**Data Exploration**
 
-Drivers are free to accept or not an assignment based on how much they will get payed for it. We are given a sample of 1000 data points which describes their decision criteria (Accepted/Declined) based on the amount of compensation offered. This data can be reviewed in the "driverAcceptanceData.csv" available in this repository. An example of the data is shown below:
+The sample of data we are given is composed of 1.000 data points. It describes Driver’s acceptance 
+of ride requests based on the amount of pay they will receive. An example of the data is presented 
+below:
 
 |    | PAY   |   Accepted |
 |---:|:------:|:---------:|
