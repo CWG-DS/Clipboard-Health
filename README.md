@@ -38,9 +38,11 @@ below:
 |  3 | 45.730717  |        1 | 
 |  4 | 14.642845  |        0 | 
 
-"PAY" describes the amount offered to the drivers and "Accepted" codifies wether the offer was accepted [1], or declined [0].
+The [PAY] column refers to the amount offered to a Driver whilst the [Accepted] columns 
+codifies whether the offer was Accepted [1] or Declined [0].
+In order to better visualize our data, we divided our sample based on whether the PAY amount 
+was Accepted or Declined through the use of boxplots as shown in Figure 1.
 
-Given the data structure we diveded our sample into two subsamples based on if the offers were accepted or declined and plotted them through the use of a boxplot.
 
 <img src="Images\Raw_Data_Distribution.png" alt="drawing"/> 
 
