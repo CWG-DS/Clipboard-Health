@@ -267,8 +267,6 @@ times over the resulting interval [24.15, 26.82] payment range.
 
 <img src="Images\Profit_DriverPay.png" alt="drawing"/>
 
-Bellow are the final results of our fixed pricing optimization. We can expect to achieve on average 29758.48$ by paying drivers a stardard amount anywhere between 24.15$ and 26.82$.
-
 <img src="Images\Final_Fix.png" alt="drawing"/>
 
 As we can appreciate in Figure 6, total profits become quite stable within the stated range. The 
@@ -284,33 +282,63 @@ already present within this range makes further reduction questionable.
 
 **Variable Pricing Strategy**
 
-In order to explore the viability of a variable price strategy we studied the progression of ride requests based on 4 set Driver Pay amounts [25, 30, 35, 40]. These amounts correspond to:
-
-        25$: A value within our maximun profit interval using a fixed pricing strategy.
-        30$: Our breakeven point.
-        35$: A value equidistant over the breakeven point.
-        40$: An "extreme" value over the breakeven point. 
-
- These amounts will give us a good understanding of how the userbase interacts with our service over different price points and how will a change in pricing affect said interaction. We focused on three different variables in order to evaluate the fisability of a variable pricing strategy: Number of Rides Accepted per month, Percentual Increase in Rides per month and Profit Generated per month. 
- For a variable pricing strategy to achieve a greater performance than our previously discussed fixed strategy it will have to significantly outperform our fixed pricing strategy by increasing the number of accepted rides and mantain them to an extent when the pricing is changed in order to offset initial losses. 
-
-In order to set a baseline we modified our previous costum function so it outputs our desired variables. The results are shown bellow:
+We then set to explore the possibility of applying a variable pricing strategy where initial losses 
+would be accepted in exchange for a greater growth of the user base, after which, driver pay would 
+be reduced so as to offset these initial losses and take advantage of an increase of rides requested.
+To do so we set to explore the behavior of our userbase under for driver payment amounts. A value
+within our maximum profit interval using the previously discussed fixed pricing approach, $25.
+Our break-even point, $30. A value equidistant over the breakeven point, $35. And an extreme 
+value, $40. 
+These amounts would give us a good understanding of how the userbase interacts with our service 
+over different price points and how will a change in pricing affect said interaction. To do so we 
+focused on three different, but related, variables: Number of accepted rides per month, percentual 
+increase in rides per month and, profit generated per month. For a variable pricing strategy to 
+achieve a greater performance than our previously discussed strategy it would have to significantly 
+outperform our fixed pricing strategy by increasing the number of accepted rides and maintain
+them to an extent when the pricing change occurred so as to offset the initial losses incurred. 
+To examine this possibility, we set a baseline by modifying our previous custom function to output 
+our desired variables
 
 <img src="Images\Var_ST.png" alt="drawing"/>
 
-As expected, there is an increase of Rides Accepted as we increase Driver Pay. It is not supprising due to our inverse sigmoid Ride Decline distribution. The higher the Driver Pay is, the fewer rides are declined. This factor in addition to the way riders request rides as defined by our Poissons distributions perfectly explains this effect. However, this progresive increase in the amount of rides requested does taper and eventually levels to a constant, much like a logarithmic function. Our second figure better illustrates this progressive decrease in growth for each subsequent month. Lastly, we can observe the profit balance per month which, as expected, is closely related to our first subplot within the figure, albeit inverted for values above 30$. Due to the high increase of losses we would suffer and the greatest increase of Rides Accepted taking place early on, we estimate that a change of price would be most beneficial between the second and forth month.
-
-We then explored the same parameters but changing Driver Pay to 25$, as it has been established as one of the most protifable Driver Pay ranges, on the fourth month with the following results:
+As expected, there is an increase of rides accepted as we increase the amount of payment which 
+drivers receive. However, the progressive increase in the number of rides accepted does eventually 
+taper off. The rate of the decrease in growth per month also depends on the amount paid to drivers. 
+Both these effects are strongly linked to our inverted sigmoid distribution which dictates the 
+percentage of declined rides. It is of note that the biggest growth in our userbase occurs within the 
+initial months. This factor, in addition to the great increase in losses incurred, as shown by our 
+final subplot of driver payment points above our breakeven point, suggests that a price change 
+should occur between the second and forth month so as to minimize the impact of losses while 
+maximizing user growth. 
+We then replicated our analysis with a slight modification. When the function arrived at the fourth 
+iteration the driver payment amount changed to $25, an amount which has previously shown to 
+maximize profits. 
 
 <img src="Images\Var_ST_2.png" alt="drawing"/>
 
-Note: Due Driver Pay 25$ suffering from high user Attrition rate, users are exhausted on month 11, therefore there are no values present in the final month. 
-
-The resulting figure is identical to the former in the initial 3 months. However we can clearly see the effects of the pricing change with a rapid decline of rides accepted which converges with the 25$ plot. Our third subplot shows an alarming insight with price reversal not showing a proportional gain in profit to the losses incurred in the initial months. This effect points towards the unfiseability of employing a variable pricing strategy. After further analysis varying the month of implementation of our price change we can conclude that the earlier the change is established the better the outcome. However the pattern shown in the above figure repeats it self. Thus, we conclude that no variable pricing strategy is able to surpass our fixed pricing strategy.
+Our results are shown in Figure 7. The resulting figure is identical to the former during the initial 
+3 months. However, we can clearly see the effects of the pricing change with a rapid decline of 
+rides accepted which rapidly converges with the $25 plot. Our third subplot shows an alarming 
+insight, with price reversal not showing a proportional gain in profit with regards to the losses 
+incurred during the initial months. This trend points towards the unfeasibility of employing a 
+variable pricing strategy as the user attrition rate is not proportional to the gain during the initial 
+months. After further analysis varying the month of implementation of our payment change, we 
+are able to conclude that the earlier the change is established the better the outcome. However, the 
+pattern shown in figure 8 remains with no combination of implementation and payment over the 
+breakeven point being able to outperform our fixed pricing strateg
 
 **Conclusion**
 
-After a deep exploration of the data and restrictions given to us by the problem we conclude that the most profitable strategy is a fixed pricing strategy where drivers are payed an amount between 24.15$ and 26.82$ with an expected result of 29758.48$ in profits. Additional analysis using bootstrap methodology will be able to give us a confidence interval to our results. Replication of this project might find deviations in the pricing range in the cent range due to variations in the inverse sigmoid distribution caused by slight differences in the accepted/declined data generation. For future projects a seed will be attached to the generation of data in order for better replication of our findings. 
+Our results are shown in Figure 7. The resulting figure is identical to the former during the initial 
+3 months. However, we can clearly see the effects of the pricing change with a rapid decline of 
+rides accepted which rapidly converges with the $25 plot. Our third subplot shows an alarming 
+insight, with price reversal not showing a proportional gain in profit with regards to the losses 
+incurred during the initial months. This trend points towards the unfeasibility of employing a 
+variable pricing strategy as the user attrition rate is not proportional to the gain during the initial 
+months. After further analysis varying the month of implementation of our payment change, we 
+are able to conclude that the earlier the change is established the better the outcome. However, the 
+pattern shown in figure 8 remains with no combination of implementation and payment over the 
+breakeven point being able to outperform our fixed pricing strateg
 
 
 
