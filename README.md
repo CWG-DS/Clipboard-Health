@@ -175,11 +175,11 @@ Now that we have a list which describes the number of accepted rides we can easi
 
 Our final step is to determine the parameters for our next loop which are:
 
-Exhausted Riders: Number of riders who exit the program because either they did not use the service or were not accepted once. 
+* Exhausted Riders: Number of riders who exit the program because either they did not use the service or were not accepted once. 
 
-New Rider Pool: Established by our Accepted Ride list (Rider_Lamb) previously described and an additional 1000 new users added to the initial element of the list.
+* New Rider Pool: Established by our Accepted Ride list (Rider_Lamb) previously described and an additional 1000 new users added to the initial element of the list.
 
-New Lambda Values: A list which contains the values of our new lambda values which is determined by the element positions of our Accepted Ride list. 
+* New Lambda Values: A list which contains the values of our new lambda values which is determined by the element positions of our Accepted Ride list. 
 
 After these elements are established the program itterates the process another 11 times before outputing a final profit value which is equal to the sum of the profits generated throughout the 12 months.
 
