@@ -46,9 +46,21 @@ was Accepted or Declined through the use of boxplots as shown in Figure 1.
 
 <img src="Images\Raw_Data_Distribution.png" alt="drawing"/> 
 
-As it would be expected the distribution pertaining to [Declined] rides are characterized by a lower [PAY] than those of [Accepted] rides as shown in the figure above as well as by their average values (18.62$, and 32.08$ respectively). Given that there are outliers within our sample we decided to remove them through the use of the Interquartile Method, removing data points which exceeded 1.5 times the interquartile range. After which we tested for normality through the use the Shapiro-Wilk Test determining that both destributions are in fact Gaussian/Normal distributions. 
-
-We then proceeded to collapse both distributions into a single plot describing the probability of rejection for every payment point. Given our small sample size we decided to group data points in 1$ intervals. The results are shown bellow:
+As it would be expected, the distribution pertaining to Declined requests is characterized by a 
+lower pay average (μ = 18.62) when compared to Accepted requests (μ = 32.08). Additionally, the 
+boxplots show us the existence of outliers which might skew further analysis. Thus, it was decided 
+to discard possible extreme values through the use of the interquartile method. Any value which 
+exceeded 1.5 times the interquartile range was discarded. After which, we tested for normality 
+through the use of the Shapiro-Wilk Test determining that both distributions were in fact 
+Gaussian/Normal distributions.
+We then proceeded to collapse both distributions into a single plot which describes the probability 
+of rejection for every driver payment point. As we can see in Figure 2 there is a reduction in the 
+probability of declined rides as we increase the pay offered to drivers. However, even with a low 
+sensitivity (as described by using large intervals, $1 in our case), we do not have enough data to 
+plot a smooth transition between intervals. As we can see, there is noticeable sudden spikes within 
+the (31, 32] and (37, 38] intervals, as well as no values within the (2,3] interval. In order to solve 
+these problems, we increased our sample size by generating normal distributions with the same 
+characteristics as our initial ones.
 
 <img src="Images\Collaps_Probability.png" alt="drawing"/>
 
