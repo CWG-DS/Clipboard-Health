@@ -86,17 +86,18 @@ our specific case and will have no effect on further analysis
 
 <img src="Images\Data_Generation.png" alt="drawing"/>
 
-Note: Values bellow 0 are discarded. Total number of values discarded per contion is 0.05% [Declined] and < 0.001% [Accepted]. No effects are expected from the removal of such a small portion of the sample.
 
 <img src="Images\LikelihoodRejection_NewData.png" alt="drawing"/>
 
-As seen above, our resulting [% of Decline Rides] describes an inverse sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail end caused by extreme values. However, since 30$ marks our break even point it will be irrelevant for our specific case and therefore will have no effect on our analysis.
-
-Now that we have our data cleaned and sorted we will proceed with the pricing strategy portion of our work.
+Now that we have our data cleaned and sorted, we will proceed with the pricing strategy.
 
 **Fixed Pricing Strategy**
 
-We will first maximize profits for a fixed payment method. This is, Drivers will be payed a fixed amount for every ride they partake in throughout the 12 months duration of the program. To do so we will employ a costum function which will itterate 12 times, once per month, through every possible value [0.01$ - 30.01$] and output the total profit obtained per value input. To make this process as clear as possible we will go through the logic of the function first and then showcase the code it self.
+We first focused on a fixed pricing strategy where driver pay is fixed throughout the whole duration 
+of our program. To do so we employed a custom function which outputs the total profit acquired 
+during the 12-month span of our program given a driver payment amount as input.
+The function logic can be found bellow, the code it self with detailed comments is available within the jupyter 
+notebook within this repository. 
 
 1. Function Set Up
 
@@ -257,11 +258,16 @@ The code itself is shown bellow:
                 Exhausted_Riders = Exhausted_Riders + Attrition                 
             return sum(Profit)
 
-We then itterated the previously described function for every Driver Pay value of interest [0.01, 30.01] and plotted the Profit outputs per Driver Pay with the following results:
+As shown in Figure 5 there is a progressive increase of total profits up to a certain payment point. 
+However, this data is extracted from a single iteration per price point and therefore, while the 
+overall trend might be accurate, individual profit values per price points might fluctuate. In order 
+to solve this, we can further iterate over a smaller range of possible driver payment amounts so as 
+to achieve greater accuracy. To do so, we set a $29.000 cut off point and iterated our function 100 
+times over the resulting interval [24.15, 26.82] payment range. 
 
 <img src="Images\Profit_DriverPay.png" alt="drawing"/>
 
-The figure above seems to represent a log normal distribution. However, this is taken from just one sample per Driver Pay. We could further itterate throughout the whole range of intervals but since we are only interested in maximizing our profits we can set a cut of point at 25.000$. We then obtain the min and max intervals that satisfy this condition and itterate over this smaller sample, saving computing time. By doing so we narrow down our optimal pricing strategy to the Driver Pay interval [22.68, 27.83] with an average profit margin of 28375.12$. However, as seen by the figure bellow, we can narrow our interval even further and itterate our costum function 100 times in order to achieve greater accuracy in our estimate.
+
 
 <img src="Images\Initial_Estimate.png" alt="drawing"/>
 
