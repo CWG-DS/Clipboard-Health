@@ -2,13 +2,33 @@
 
 <img src="Images\ClipHealth_Img.png" alt="drawing" width="150"/> 
 
-**Preliminary Analysis**
+**Introduction**
 
-The main goal of this project is the optimization of a pricing strategy in which potential profits are maximized given the restrictions imposed by the document "Clipboard Health Pricing Case Study" available in this repository.
+The end goal of this project is to determine the most optimum pricing strategy for the case 
+presented to us by Clipboard Health. We begin by dissecting the case study presented to us.
+1. The launch of our ride-hailing service will be active for 12 months.
+2. Riders are charged $30 per ride.
+3. Driver’s pay per ride is our main variable to be determined. Drivers are able to choose 
+which rides to service based on compensation. We are given an extract that describes 
+Driver’s decision making based on payment.
+4. There is a total of 10.000 Riders which are available to us.
+5. We are limited to an increase of 1.000 drivers per month.
+6. The number of rides that are requested by Riders is determined by a Poisson distribution 
+with and initial Lambda of 1.
+7. Riders who do not request rides or do so but are not serviced by Drivers exit the program 
+and do not return.
+8. The number of requests per driver is determined by a Poisson distribution with an initial 
+Lambda of 1. Subsequent requests performed by Riders which stay in the program will also 
+exhibit a Poisson distribution with a Lambda equivalent to the number of serviced rides 
+from the previous month.
+Based on these restrictions we will proceed to model our data and output the most efficient 
+payment method to Drivers so as to maximize profits.
 
-A ride-hailing service is created and will work for a total duration of 12 months. Potential riders are paired with drivers and charged 30$ per ride. Our main variable of interest is the amount payed to drivers. As such, we will aim to maximize profits by increasing the total amount of rides while reducing as much as possible the amount payed to drivers. 
+**Data Exploration**
 
-Drivers are free to accept or not an assignment based on how much they will get payed for it. We are given a sample of 1000 data points which describes their decision criteria (Accepted/Declined) based on the amount of compensation offered. This data can be reviewed in the "driverAcceptanceData.csv" available in this repository. An example of the data is shown below:
+The sample of data we are given is composed of 1.000 data points. It describes Driver’s acceptance 
+of ride requests based on the amount of pay they will receive. An example of the data is presented 
+below:
 
 |    | PAY   |   Accepted |
 |---:|:------:|:---------:|
@@ -18,37 +38,66 @@ Drivers are free to accept or not an assignment based on how much they will get 
 |  3 | 45.730717  |        1 | 
 |  4 | 14.642845  |        0 | 
 
-"PAY" describes the amount offered to the drivers and "Accepted" codifies wether the offer was accepted [1], or declined [0].
+The [PAY] column refers to the amount offered to a Driver whilst the [Accepted] columns 
+codifies whether the offer was Accepted [1] or Declined [0].
+In order to better visualize our data, we divided our sample based on whether the PAY amount 
+was Accepted or Declined through the use of boxplots as shown in Figure 1.
 
-Given the data structure we diveded our sample into two subsamples based on if the offers were accepted or declined and plotted them through the use of a boxplot.
 
 <img src="Images\Raw_Data_Distribution.png" alt="drawing"/> 
 
-As it would be expected the distribution pertaining to [Declined] rides are characterized by a lower [PAY] than those of [Accepted] rides as shown in the figure above as well as by their average values (18.62$, and 32.08$ respectively). Given that there are outliers within our sample we decided to remove them through the use of the Interquartile Method, removing data points which exceeded 1.5 times the interquartile range. After which we tested for normality through the use the Shapiro-Wilk Test determining that both destributions are in fact Gaussian/Normal distributions. 
+As it would be expected, the distribution pertaining to Declined requests is characterized by a 
+lower pay average (μ = 18.62) when compared to Accepted requests (μ = 32.08). Additionally, the 
+boxplots show us the existence of outliers which might skew further analysis. Thus, it was decided 
+to discard possible extreme values through the use of the interquartile method. Any value which 
+exceeded 1.5 times the interquartile range was discarded. After which, we tested for normality 
+through the use of the Shapiro-Wilk Test determining that both distributions were in fact 
+Gaussian/Normal distributions.
 
-We then proceeded to collapse both distributions into a single plot describing the probability of rejection for every payment point. Given our small sample size we decided to group data points in 1$ intervals. The results are shown bellow:
+
+We then proceeded to collapse both distributions into a single plot which describes the probability 
+of rejection for every driver payment point. As we can see in Figure 2 there is a reduction in the 
+probability of declined rides as we increase the pay offered to drivers. However, even with a low 
+sensitivity (as described by using large intervals, $1 in our case), we do not have enough data to 
+plot a smooth transition between intervals. As we can see, there is noticeable sudden spikes within 
+the (31, 32] and (37, 38] intervals, as well as no values within the (2,3] interval. In order to solve 
+these problems, we increased our sample size by generating normal distributions with the same 
+characteristics as our initial ones.
 
 <img src="Images\Collaps_Probability.png" alt="drawing"/>
 
-As expected there is a reduction in the probability of declined rides as we increase the pay offered to drivers. However, even with a low sensitivity (1$ intervals) we dont have enough data to plot a smooth transition between intervals. As we can see, there is noticeable sudden "jumps" within the (31, 32] and (37,38] intervals as well as no values within the (2,3] interval. In order to solve these problems we increased our sample size by generating normal distributions with the same characteristics as our initial ones. This process is described in the next section.
-
 **Data Generation**
 
-Given that both Decline and Accepted ride request both exhibit a Gaussian/Normal distribution we are able to generate further data points based on the characteristics (mean and standard deviation) of their respective distributions. We will therefore recreate these distributions with a sample size of 100.000.000 data points per condition. This will enable us to generate a more accurate estimate of which rides were accepted/declined for every Driver Pay range as well as increasing our sensitivity as we will be able to create smaller intervals (0.01$ instead of the previously used 1$ range). Our new data distributions are as follows:
+Given that both Decline and Accepted distributions both exhibit a Gaussian/Normal distribution 
+we were able to generate further data points based on the characteristics (mean and standard 
+deviation) of their respective distributions. We will therefore recreate these distributions with a 
+sample size of 100 million data points per condition. This increase in our sample size will enable 
+us to generate a more accurate estimate of which rides were accepted/decline for every driver 
+payment range as well as increase our sensitivity by reducing the width of our intervals to $0,01
+instead of the previous $1 range. It is of note that values bellow 0 were discarded. The total number 
+of values discarded per condition is 0.05% for Declined and < 0.001% for Accepted. No effects 
+are expected from the removal of such a small portion of the sample. Both newly generated 
+distributions are shown in Figure 3.
+We then proceeded to collapse our newly generated distributions into a single plot much like we 
+did before. As seen in Figure 4, our resulting percentage of declined rides describes an inverse 
+sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail 
+end caused by extreme values. However, since $30 marks our break-even point it is irrelevant for 
+our specific case and will have no effect on further analysis
 
 <img src="Images\Data_Generation.png" alt="drawing"/>
 
-Note: Values bellow 0 are discarded. Total number of values discarded per contion is 0.05% [Declined] and < 0.001% [Accepted]. No effects are expected from the removal of such a small portion of the sample.
 
 <img src="Images\LikelihoodRejection_NewData.png" alt="drawing"/>
 
-As seen above, our resulting [% of Decline Rides] describes an inverse sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail end caused by extreme values. However, since 30$ marks our break even point it will be irrelevant for our specific case and therefore will have no effect on our analysis.
-
-Now that we have our data cleaned and sorted we will proceed with the pricing strategy portion of our work.
+Now that we have our data cleaned and sorted, we will proceed with the pricing strategy.
 
 **Fixed Pricing Strategy**
 
-We will first maximize profits for a fixed payment method. This is, Drivers will be payed a fixed amount for every ride they partake in throughout the 12 months duration of the program. To do so we will employ a costum function which will itterate 12 times, once per month, through every possible value [0.01$ - 30.01$] and output the total profit obtained per value input. To make this process as clear as possible we will go through the logic of the function first and then showcase the code it self.
+We first focused on a fixed pricing strategy where driver pay is fixed throughout the whole duration 
+of our program. To do so we employed a custom function which outputs the total profit acquired 
+during the 12-month span of our program given a driver payment amount as input.
+The function logic can be found bellow, the code it self with detailed comments is available within the jupyter 
+notebook within this repository. 
 
 1. Function Set Up
 
@@ -126,11 +175,11 @@ Now that we have a list which describes the number of accepted rides we can easi
 
 Our final step is to determine the parameters for our next loop which are:
 
-Exhausted Riders: Number of riders who exit the program because either they did not use the service or were not accepted once. 
+* Exhausted Riders: Number of riders who exit the program because either they did not use the service or were not accepted once. 
 
-New Rider Pool: Established by our Accepted Ride list (Rider_Lamb) previously described and an additional 1000 new users added to the initial element of the list.
+* New Rider Pool: Established by our Accepted Ride list (Rider_Lamb) previously described and an additional 1000 new users added to the initial element of the list.
 
-New Lambda Values: A list which contains the values of our new lambda values which is determined by the element positions of our Accepted Ride list. 
+* New Lambda Values: A list which contains the values of our new lambda values which is determined by the element positions of our Accepted Ride list. 
 
 After these elements are established the program itterates the process another 11 times before outputing a final profit value which is equal to the sum of the profits generated throughout the 12 months.
 
@@ -209,47 +258,87 @@ The code itself is shown bellow:
                 Exhausted_Riders = Exhausted_Riders + Attrition                 
             return sum(Profit)
 
-We then itterated the previously described function for every Driver Pay value of interest [0.01, 30.01] and plotted the Profit outputs per Driver Pay with the following results:
+As shown in Figure 5 there is a progressive increase of total profits up to a certain payment point. 
+However, this data is extracted from a single iteration per price point and therefore, while the 
+overall trend might be accurate, individual profit values per price points might fluctuate. In order 
+to solve this, we can further iterate over a smaller range of possible driver payment amounts so as 
+to achieve greater accuracy. To do so, we set a $29.000 cut off point and iterated our function 100 
+times over the resulting interval [24.15, 26.82] payment range. 
 
 <img src="Images\Profit_DriverPay.png" alt="drawing"/>
 
-The figure above seems to represent a log normal distribution. However, this is taken from just one sample per Driver Pay. We could further itterate throughout the whole range of intervals but since we are only interested in maximizing our profits we can set a cut of point at 25.000$. We then obtain the min and max intervals that satisfy this condition and itterate over this smaller sample, saving computing time. By doing so we narrow down our optimal pricing strategy to the Driver Pay interval [22.68, 27.83] with an average profit margin of 28375.12$. However, as seen by the figure bellow, we can narrow our interval even further and itterate our costum function 100 times in order to achieve greater accuracy in our estimate.
-
-<img src="Images\Initial_Estimate.png" alt="drawing"/>
-
-Bellow are the final results of our fixed pricing optimization. We can expect to achieve on average 29758.48$ by paying drivers a stardard amount anywhere between 24.15$ and 26.82$.
-
 <img src="Images\Final_Fix.png" alt="drawing"/>
+
+As we can appreciate in Figure 6, total profits become quite stable within the stated range. The 
+average expected profits within this range is $29.758,48. When tested for normality through the
+Shapiro-Wilk Test the distribution was determined to be non-normal. Thus, one of two approaches 
+should be taken to determine confidence intervals, resampling the data so as to obtain a normal 
+distribution or via bootstrapping methodology. However, this was not done in this project and will 
+be revisited in the future. 
+It is then concluded that the most optimum driver payment range using a fixed priced strategy is 
+anywhere between $24,15 and $26,82 with an expected total profit of approximately $29.758. 
+Greater profits might be achieved by tightening the driver pay range, however the variability 
+already present within this range makes further reduction questionable.
 
 **Variable Pricing Strategy**
 
-In order to explore the viability of a variable price strategy we studied the progression of ride requests based on 4 set Driver Pay amounts [25, 30, 35, 40]. These amounts correspond to:
-
-        25$: A value within our maximun profit interval using a fixed pricing strategy.
-        30$: Our breakeven point.
-        35$: A value equidistant over the breakeven point.
-        40$: An "extreme" value over the breakeven point. 
-
- These amounts will give us a good understanding of how the userbase interacts with our service over different price points and how will a change in pricing affect said interaction. We focused on three different variables in order to evaluate the fisability of a variable pricing strategy: Number of Rides Accepted per month, Percentual Increase in Rides per month and Profit Generated per month. 
- For a variable pricing strategy to achieve a greater performance than our previously discussed fixed strategy it will have to significantly outperform our fixed pricing strategy by increasing the number of accepted rides and mantain them to an extent when the pricing is changed in order to offset initial losses. 
-
-In order to set a baseline we modified our previous costum function so it outputs our desired variables. The results are shown bellow:
+We then set to explore the possibility of applying a variable pricing strategy where initial losses 
+would be accepted in exchange for a greater growth of the user base, after which, driver pay would 
+be reduced so as to offset these initial losses and take advantage of an increase of rides requested.
+To do so we set to explore the behavior of our userbase under for driver payment amounts. A value
+within our maximum profit interval using the previously discussed fixed pricing approach, $25.
+Our break-even point, $30. A value equidistant over the breakeven point, $35. And an extreme 
+value, $40. 
+These amounts would give us a good understanding of how the userbase interacts with our service 
+over different price points and how will a change in pricing affect said interaction. To do so we 
+focused on three different, but related, variables: Number of accepted rides per month, percentual 
+increase in rides per month and, profit generated per month. For a variable pricing strategy to 
+achieve a greater performance than our previously discussed strategy it would have to significantly 
+outperform our fixed pricing strategy by increasing the number of accepted rides and maintain
+them to an extent when the pricing change occurred so as to offset the initial losses incurred. 
+To examine this possibility, we set a baseline by modifying our previous custom function to output 
+our desired variables
 
 <img src="Images\Var_ST.png" alt="drawing"/>
 
-As expected, there is an increase of Rides Accepted as we increase Driver Pay. It is not supprising due to our inverse sigmoid Ride Decline distribution. The higher the Driver Pay is, the fewer rides are declined. This factor in addition to the way riders request rides as defined by our Poissons distributions perfectly explains this effect. However, this progresive increase in the amount of rides requested does taper and eventually levels to a constant, much like a logarithmic function. Our second figure better illustrates this progressive decrease in growth for each subsequent month. Lastly, we can observe the profit balance per month which, as expected, is closely related to our first subplot within the figure, albeit inverted for values above 30$. Due to the high increase of losses we would suffer and the greatest increase of Rides Accepted taking place early on, we estimate that a change of price would be most beneficial between the second and forth month.
-
-We then explored the same parameters but changing Driver Pay to 25$, as it has been established as one of the most protifable Driver Pay ranges, on the fourth month with the following results:
+As expected, there is an increase of rides accepted as we increase the amount of payment which 
+drivers receive. However, the progressive increase in the number of rides accepted does eventually 
+taper off. The rate of the decrease in growth per month also depends on the amount paid to drivers. 
+Both these effects are strongly linked to our inverted sigmoid distribution which dictates the 
+percentage of declined rides. It is of note that the biggest growth in our userbase occurs within the 
+initial months. This factor, in addition to the great increase in losses incurred, as shown by our 
+final subplot of driver payment points above our breakeven point, suggests that a price change 
+should occur between the second and forth month so as to minimize the impact of losses while 
+maximizing user growth. 
+We then replicated our analysis with a slight modification. When the function arrived at the fourth 
+iteration the driver payment amount changed to $25, an amount which has previously shown to 
+maximize profits. 
 
 <img src="Images\Var_ST_2.png" alt="drawing"/>
 
-Note: Due Driver Pay 25$ suffering from high user Attrition rate, users are exhausted on month 11, therefore there are no values present in the final month. 
-
-The resulting figure is identical to the former in the initial 3 months. However we can clearly see the effects of the pricing change with a rapid decline of rides accepted which converges with the 25$ plot. Our third subplot shows an alarming insight with price reversal not showing a proportional gain in profit to the losses incurred in the initial months. This effect points towards the unfiseability of employing a variable pricing strategy. After further analysis varying the month of implementation of our price change we can conclude that the earlier the change is established the better the outcome. However the pattern shown in the above figure repeats it self. Thus, we conclude that no variable pricing strategy is able to surpass our fixed pricing strategy.
+Our results are shown in Figure 7. The resulting figure is identical to the former during the initial 
+3 months. However, we can clearly see the effects of the pricing change with a rapid decline of 
+rides accepted which rapidly converges with the $25 plot. Our third subplot shows an alarming 
+insight, with price reversal not showing a proportional gain in profit with regards to the losses 
+incurred during the initial months. This trend points towards the unfeasibility of employing a 
+variable pricing strategy as the user attrition rate is not proportional to the gain during the initial 
+months. After further analysis varying the month of implementation of our payment change, we 
+are able to conclude that the earlier the change is established the better the outcome. However, the 
+pattern shown in figure 8 remains with no combination of implementation and payment over the 
+breakeven point being able to outperform our fixed pricing strateg
 
 **Conclusion**
 
-After a deep exploration of the data and restrictions given to us by the problem we conclude that the most profitable strategy is a fixed pricing strategy where drivers are payed an amount between 24.15$ and 26.82$ with an expected result of 29758.48$ in profits. Additional analysis using bootstrap methodology will be able to give us a confidence interval to our results. Replication of this project might find deviations in the pricing range in the cent range due to variations in the inverse sigmoid distribution caused by slight differences in the accepted/declined data generation. For future projects a seed will be attached to the generation of data in order for better replication of our findings. 
+Our results are shown in Figure 7. The resulting figure is identical to the former during the initial 
+3 months. However, we can clearly see the effects of the pricing change with a rapid decline of 
+rides accepted which rapidly converges with the $25 plot. Our third subplot shows an alarming 
+insight, with price reversal not showing a proportional gain in profit with regards to the losses 
+incurred during the initial months. This trend points towards the unfeasibility of employing a 
+variable pricing strategy as the user attrition rate is not proportional to the gain during the initial 
+months. After further analysis varying the month of implementation of our payment change, we 
+are able to conclude that the earlier the change is established the better the outcome. However, the 
+pattern shown in figure 8 remains with no combination of implementation and payment over the 
+breakeven point being able to outperform our fixed pricing strateg
 
 
 
