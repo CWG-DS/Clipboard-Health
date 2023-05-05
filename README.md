@@ -82,7 +82,7 @@ We then proceeded to collapse our newly generated distributions into a single pl
 did before. As seen in Figure 4, our resulting percentage of declined rides describes an inverse 
 sigmoid distribution. We can also appreciate some deviance from this distribution at the right tail 
 end caused by extreme values. However, since $30 marks our break-even point it is irrelevant for 
-our specific case and will have no effect on further analysis
+our specific case and will have no effect on further analysis.
 
 <img src="Images\Data_Generation.png" alt="drawing"/>
 
