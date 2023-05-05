@@ -297,7 +297,7 @@ achieve a greater performance than our previously discussed strategy it would ha
 outperform our fixed pricing strategy by increasing the number of accepted rides and maintain
 them to an extent when the pricing change occurred so as to offset the initial losses incurred. 
 To examine this possibility, we set a baseline by modifying our previous custom function to output 
-our desired variables
+our desired variables.
 
 <img src="Images\Var_ST.png" alt="drawing"/>
 
