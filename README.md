@@ -308,7 +308,7 @@ Both these effects are strongly linked to our inverted sigmoid distribution whic
 percentage of declined rides. It is of note that the biggest growth in our userbase occurs within the 
 initial months. This factor, in addition to the great increase in losses incurred, as shown by our 
 final subplot of driver payment points above our breakeven point, suggests that a price change 
-should occur between the second and forth month so as to minimize the impact of losses while 
+should occur between the second and fourth month so as to minimize the impact of losses while 
 maximizing user growth. 
 We then replicated our analysis with a slight modification. When the function arrived at the fourth 
 iteration the driver payment amount changed to $25, an amount which has previously shown to 
@@ -325,7 +325,7 @@ variable pricing strategy as the user attrition rate is not proportional to the 
 months. After further analysis varying the month of implementation of our payment change, we 
 are able to conclude that the earlier the change is established the better the outcome. However, the 
 pattern shown in figure 8 remains with no combination of implementation and payment over the 
-breakeven point being able to outperform our fixed pricing strateg
+breakeven point being able to outperform our fixed pricing strategy.
 
 **Conclusion**
 
@@ -338,7 +338,7 @@ variable pricing strategy as the user attrition rate is not proportional to the 
 months. After further analysis varying the month of implementation of our payment change, we 
 are able to conclude that the earlier the change is established the better the outcome. However, the 
 pattern shown in figure 8 remains with no combination of implementation and payment over the 
-breakeven point being able to outperform our fixed pricing strateg
+breakeven point being able to outperform our fixed pricing strategy.
 
 
 
