@@ -181,7 +181,7 @@ Our final step is to determine the parameters for our next loop which are:
 
 * New Lambda Values: A list which contains the values of our new lambda values which is determined by the element positions of our Accepted Ride list. 
 
-After these elements are established the program itterates the process another 11 times before outputing a final profit value which is equal to the sum of the profits generated throughout the 12 months.
+After these elements are established the program iterates the process another 11 times before outputting a final profit value which is equal to the sum of the profits generated throughout the 12 months.
 
 The code itself is shown bellow:
 
