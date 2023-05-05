@@ -96,7 +96,7 @@ Now that we have our data cleaned and sorted, we will proceed with the pricing s
 We first focused on a fixed pricing strategy where driver pay is fixed throughout the whole duration 
 of our program. To do so we employed a custom function which outputs the total profit acquired 
 during the 12-month span of our program given a driver payment amount as input.
-The function logic can be found bellow, the code it self with detailed comments is available within the jupyter 
+The function logic can be found bellow, the code itself with detailed comments is available within the jupyter 
 notebook within this repository. 
 
 1. Function Set Up
@@ -105,19 +105,19 @@ We import the necessary libraries and set up our initial parameters which are:
 
 - Lambda Value: 1
 - Number of Riders: 1.000
-- Maximun Possible Riders: 10.000
+- Maximum Possible Riders: 10.000
 - Exhausted Riders: 0 
 - Empty Profit List: []
 
 2. Main For Loop
 
-Since our program will last for a total of 12 months we will itterate the process of calculating our profits 12 times, once per month. There is a trigger set in place to stop the process if the number of Exhausted Riders goes over our preestablished 10.000 mark, this would mean that we have exhausted all of our possible riders and the program ends. 
+Since our program will last for a total of 12 months, we will iterate the process of calculating our profits 12 times, once per month. There is a trigger set in place to stop the process if the number of Exhausted Riders goes over our preestablished 10.000 mark, this would mean that we have exhausted all of our possible riders and the program ends. 
 
 2.1 Calculating our Poisson Distribution
 
 The number of rides per rider is described by a Poisson Distribution. For our first run, the number of samples of this distribution will be 1.000 and our lambda will be 1. The resulting distribution is saved within TotalLamb_Dist list. This list is then used in order to extract two essential components:
 - Unique_Values: A list containing the unique number of ride requests within TotalLamb_Dist.
-- NRi_NRe: A list containing the number of riders per unique number of ride requets.
+- NRi_NRe: A list containing the number of riders per unique number of rides request.
 
 Example:
 
