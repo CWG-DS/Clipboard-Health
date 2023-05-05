@@ -5,7 +5,7 @@
 **Introduction**
 
 The end goal of this project is to determine the most optimum pricing strategy for the case 
-presented to us by Clipboard Health. We begin by dissecting the case study presented to us.
+presented to us by Clipboard Health. We begin by dissecting the case study.
 1. The launch of our ride-hailing service will be active for 12 months.
 2. Riders are charged $30 per ride.
 3. Driver’s pay per ride is our main variable to be determined. Drivers are able to choose 
